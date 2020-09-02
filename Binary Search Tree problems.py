@@ -1,171 +1,138 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import queue\n",
-    "class Node:\n",
-    "    def __init__(self, info): \n",
-    "        self.info = info  \n",
-    "        self.left = None  \n",
-    "        self.right = None \n",
-    "        self.level = None \n",
-    "        self.hd = 0\n",
-    "\n",
-    "    def __str__(self):\n",
-    "        return str(self.info) \n",
-    "\n",
-    "class BinarySearchTree:\n",
-    "    def __init__(self): \n",
-    "        self.root = None\n",
-    "\n",
-    "    def create(self, val):  \n",
-    "        if self.root == None:\n",
-    "            self.root = Node(val)\n",
-    "        else:\n",
-    "            current = self.root\n",
-    "         \n",
-    "            while True:\n",
-    "                if val < current.info:\n",
-    "                    if current.left:\n",
-    "                        current = current.left\n",
-    "                    else:\n",
-    "                        current.left = Node(val)\n",
-    "                        break\n",
-    "                elif val > current.info:\n",
-    "                    if current.right:\n",
-    "                        current = current.right\n",
-    "                    else:\n",
-    "                        current.right = Node(val)\n",
-    "                        break\n",
-    "                else:\n",
-    "                    break\n",
-    "def height(root):\n",
-    "    if root:\n",
-    "        return(1+max(height(root.left),height(root.right)))\n",
-    "    else:\n",
-    "        return -1\n",
-    "\n",
-    "def inOrder(root):\n",
-    "    if root:\n",
-    "        inOrder(root.left)\n",
-    "        print(root.info,end=' ')\n",
-    "        inOrder(root.right)\n",
-    "\n",
-    "def preOrder(root):\n",
-    "    if root:\n",
-    "        print(root.info,end=' ')\n",
-    "        preOrder(root.left)\n",
-    "        preOrder(root.right)\n",
-    "        \n",
-    "        \n",
-    "def postOrder(root):\n",
-    "    if root:\n",
-    "        postOrder(root.left)\n",
-    "        postOrder(root.right)\n",
-    "        print(root.info,end=' ')\n",
-    "\n",
-    "def levelorder(root):\n",
-    "    \n",
-    "    if root is None:\n",
-    "        return 0\n",
-    "    q=[]\n",
-    "    q.append(root)\n",
-    "    while len(q)>0:\n",
-    "        \n",
-    "        print(q[0].info,end =' ')\n",
-    "        node = q.pop(0)\n",
-    "        \n",
-    "        if node.left is not None:\n",
-    "            q.append(node.left)\n",
-    "        if node.right is not None:\n",
-    "            q.append(node.right)        \n",
-    "\n",
-    "def topview(root):\n",
-    "    if root == None:\n",
-    "        return\n",
-    "    q=[]\n",
-    "    m=dict()\n",
-    "    hd=0\n",
-    "   \n",
-    "    \n",
-    "    q.append(root)\n",
-    "    while(len(q)):\n",
-    "        root = q[0]\n",
-    "        hd = root.hd\n",
-    "        \n",
-    "        if hd not in m:\n",
-    "            m[hd] = root.info\n",
-    "        if root.left:\n",
-    "            root.left.hd = hd-1\n",
-    "            q.append(root.left)\n",
-    "            \n",
-    "        if root.right:\n",
-    "            root.right.hd = hd+1\n",
-    "            q.append(root.right)\n",
-    "            \n",
-    "        q.pop(0)\n",
-    "    for i in sorted (m):\n",
-    "        print(m[i],end=' ')\n",
-    "        \n",
-    "        \n",
-    "def lca(root,n1,n2):\n",
-    "    if root is None:\n",
-    "        return\n",
-    "    if root.info > n1 and root.info > n2:\n",
-    "        return lca(root.left,n1,n2)\n",
-    "    if root.info < n1 and root.info < n2:\n",
-    "        return lca(root.right,n1,n2)\n",
-    "    return(root)\n",
-    "        \n",
-    "   \n",
-    "                    \n",
-    "\n",
-    "tree = BinarySearchTree()\n",
-    "t = int(input())\n",
-    "arr = list(map(int, input().split()))\n",
-    "for i in range(t):\n",
-    "    tree.create(arr[i])\n",
-    "    \n",
-    "    \n",
-    "print('height of tree==',height(tree.root))\n",
-    "\n",
-    "print('inorder traversal',inOrder(tree.root))\n",
-    "\n",
-    "print('preorder traversal',preOrder(tree.root))\n",
-    "\n",
-    "print('postorder traversal',postOrder(tree.root))\n",
-    "\n",
-    "print('level order traversal',levelorder(tree.root))\n",
-    "\n",
-    "print(\"top view of binary search tree\",topview(tree.root))\n",
-    "\n",
-    "print('lowest common ancestor==',lca(tree.root,4,14))"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.6.4"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+import queue
+class Node:
+    def __init__(self, info): 
+        self.info = info  
+        self.left = None  
+        self.right = None 
+        self.level = None 
+        self.hd = 0
+
+    def __str__(self):
+        return str(self.info) 
+
+class BinarySearchTree:
+    def __init__(self): 
+        self.root = None
+
+    def create(self, val):  
+        if self.root == None:
+            self.root = Node(val)
+        else:
+            current = self.root
+         
+            while True:
+                if val < current.info:
+                    if current.left:
+                        current = current.left
+                    else:
+                        current.left = Node(val)
+                        break
+                elif val > current.info:
+                    if current.right:
+                        current = current.right
+                    else:
+                        current.right = Node(val)
+                        break
+                else:
+                    break
+def height(root):
+    if root:
+        return(1+max(height(root.left),height(root.right)))
+    else:
+        return -1
+
+def inOrder(root):
+    if root:
+        inOrder(root.left)
+        print(root.info,end=' ')
+        inOrder(root.right)
+
+def preOrder(root):
+    if root:
+        print(root.info,end=' ')
+        preOrder(root.left)
+        preOrder(root.right)
+        
+        
+def postOrder(root):
+    if root:
+        postOrder(root.left)
+        postOrder(root.right)
+        print(root.info,end=' ')
+
+def levelorder(root):
+    
+    if root is None:
+        return 0
+    q=[]
+    q.append(root)
+    while len(q)>0:
+        
+        print(q[0].info,end =' ')
+        node = q.pop(0)
+        
+        if node.left is not None:
+            q.append(node.left)
+        if node.right is not None:
+            q.append(node.right)        
+
+def topview(root):
+    if root == None:
+        return
+    q=[]
+    m=dict()
+    hd=0
+   
+    
+    q.append(root)
+    while(len(q)):
+        root = q[0]
+        hd = root.hd
+        
+        if hd not in m:
+            m[hd] = root.info
+        if root.left:
+            root.left.hd = hd-1
+            q.append(root.left)
+            
+        if root.right:
+            root.right.hd = hd+1
+            q.append(root.right)
+            
+        q.pop(0)
+    for i in sorted (m):
+        print(m[i],end=' ')
+        
+        
+def lca(root,n1,n2):
+    if root is None:
+        return
+    if root.info > n1 and root.info > n2:
+        return lca(root.left,n1,n2)
+    if root.info < n1 and root.info < n2:
+        return lca(root.right,n1,n2)
+    return(root)
+        
+   
+                    
+
+tree = BinarySearchTree()
+t = int(input())
+arr = list(map(int, input().split()))
+for i in range(t):
+    tree.create(arr[i])
+    
+    
+print('height of tree==',height(tree.root))
+
+print('inorder traversal',inOrder(tree.root))
+
+print('preorder traversal',preOrder(tree.root))
+
+print('postorder traversal',postOrder(tree.root))
+
+print('level order traversal',levelorder(tree.root))
+
+print("top view of binary search tree",topview(tree.root))
+
+print('lowest common ancestor==',lca(tree.root,4,14))
