@@ -1,6 +1,6 @@
 # Binary-Search-tree-problems
 Binary search tree basic problems code in python:
-inorder
+inorder,
 preorder
 postorder
 height of tree
